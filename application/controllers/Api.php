@@ -28,4 +28,14 @@ class Api extends RestController
             $this->response($data, RestController::HTTP_OK);
         }
     }
+    public function pelanggan_post()
+    {
+        $data = [
+            'nm_pelanggan' => $this->post('nm_pelanggan'),
+            'alamat_pelanggan' => $this->post('alamat_pelanggan'),
+            'status' => $this->post('status'),
+            'no_hp' => $this->post('no_hp'),
+            'id_layanan' => $this->post('id_layanan')
+        ];
+    }
 }
