@@ -10,15 +10,22 @@ class Api extends RestController
         parent::__construct();
         // $this->load->model('Pembayaran_sppt_model');
     }
-    public function pelanggan_get()
+    public function pelanggan_get($id = '')
     {
-        $id = $this->input->get('id');
-        if ($id == '') {
-            $data = $this->db->get('tbl_pelanggan')->result();
+        $check_data = $this->db->get_where('tbl_pelanggan', ['id_pelanggan' => $id])->row_array();
+        if ($id) {
+            if ($check_data) {
+                $data = $this->db->get_where('tbl_pelanggan', ['id_pelanggan' => $id])->row_array();
+                $this->response($data, RestController::HTTP_OK);
+            } else {
+                $this->response([
+                    'status' => false,
+                    'message' => 'Data tidak ditemukan'
+                ], RestController::HTTP_NOT_FOUND);
+            }
         } else {
-            $this->db->where('id_pelanggan', $id);
             $data = $this->db->get('tbl_pelanggan')->result();
+            $this->response($data, RestController::HTTP_OK);
         }
-        $this->response($data, 200);
     }
 }
