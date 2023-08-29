@@ -5,9 +5,20 @@ use chriskacerguis\RestServer\RestController;
 
 class Api extends RestController
 {
+    function __construct()
+    {
+        parent::__construct();
+        // $this->load->model('Pembayaran_sppt_model');
+    }
     public function pelanggan_get()
     {
-        $data = $this->db->get('tbl_pelanggan')->result();
-        $this->response($data, RestController::HTTP_OK);
+        $id = $this->input->get('id');
+        if ($id == '') {
+            $data = $this->db->get('tbl_pelanggan')->result();
+        } else {
+            $this->db->where('id_pelanggan', $id);
+            $data = $this->db->get('tbl_pelanggan')->result();
+        }
+        $this->response($data, 200);
     }
 }
